@@ -36,7 +36,6 @@
   (let [f (#'clojure.core/binding-conveyor-fn transform-fn)]
     (reify EventHandler
       (onEvent [this e seq-num end-of-batch?]
-        (println (retrieve e))
         (assign e (f (retrieve e)))))))
 
 (def ^:private event-factory
@@ -85,13 +84,13 @@
   
   Respects bound vars from the initial thread
   
-  (let [results (atom []))
+  (let [results (atom [])
         queue (-> {:ring-buffer-size 100000} 
                    read-string
                    inc
                    pr-str
                    #(assoc {} :result %)
-                   #(swap results conj %))]
+                   #(swap! results conj %))]
     (doseq [x [\"1\" \"3\" \"2\" \"5\"]]
       (offer queue x))
     @results)
