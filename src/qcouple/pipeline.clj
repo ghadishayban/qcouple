@@ -13,6 +13,10 @@
 ;;
 ;; make options {} optional
 ;;
+;; fix doc-string
+;;
+;; make sure that a latch is necessary after your offering code
+;;
 ;; ^unsynchronized-mutable ok?
 ;; wait for sentinel handler necessary?
 ;; binding-conveyor-fn necessary?
@@ -96,7 +100,7 @@
     @results)
   "
   [opts & consumers]
-  (when-not (> (count consumers) 1)
+  (when-not (> (count consumers) 0)
     (throw (ex-info "Need at least one consumer fn in the chain" {})))
   (let [{:keys [ring-buffer-size executor] :or {ring-buffer-size default-size
                                                 executor (default-executor 4)}}
